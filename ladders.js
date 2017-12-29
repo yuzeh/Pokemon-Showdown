@@ -14,7 +14,7 @@
 const LadderStore = require(typeof Config === 'object' && Config.remoteladder ? './ladders-remote' : './ladders-local');
 
 /** @type {number} */
-const PERIODIC_MATCH_INTERVAL = 60 * 1000;
+const PERIODIC_MATCH_INTERVAL = 1 * 1000;
 
 /**
  * This represents a user's search for a battle under a format.
@@ -461,6 +461,7 @@ class Ladder extends LadderStore {
 
 		// users must be different
 		if (user1 === user2) return false;
+		return true;
 
 		// users must have different IPs
 		if (user1.latestIp === user2.latestIp) return false;
