@@ -51,7 +51,7 @@ class TimedCounter extends Map {
 // 5 = supposedly completely silent, but for now a lot of PS output doesn't respect loglevel
 if (('Config' in global) &&
 		(typeof Config.loglevel !== 'number' || Config.loglevel < 0 || Config.loglevel > 5)) {
-	Config.loglevel = 2;
+	Config.loglevel = 1;
 }
 
 // @ts-ignore
@@ -179,12 +179,12 @@ const Monitor = module.exports = {
 		let [count, duration] = this.battles.increment(ip, 30 * 60 * 1000);
 		if (duration < 5 * 60 * 1000 && count % 30 === 0) {
 			this.adminlog(`[ResourceMonitor] IP ${ip} has battled ${count} times in the last ${Chat.toDurationString(duration)}${name ? ': ' + name : ''})`);
-			return true;
+			return false;
 		}
 
 		if (count % 150 === 0) {
 			this.adminlog(`[ResourceMonitor] IP ${ip} has battled ${count} times in the last ${Chat.toDurationString(duration)}${name ? ': ' + name : ''}`);
-			return true;
+			return false;
 		}
 
 		return false;
@@ -201,8 +201,8 @@ const Monitor = module.exports = {
 		let count = this.battlePreps.increment(ip, 3 * 60 * 1000)[0];
 		if (count <= 12) return false;
 		if (count < 120 && Punishments.sharedIps.has(ip)) return false;
-		connection.popup('Due to high load, you are limited to 12 battles and team validations every 3 minutes.');
-		return true;
+		//connection.popup('Due to high load, you are limited to 12 battles and team validations every 3 minutes.');
+		return false;
 	},
 
 	/**
@@ -214,8 +214,8 @@ const Monitor = module.exports = {
 	 */
 	countConcurrentBattle(count, connection) {
 		if (count <= 5) return false;
-		connection.popup(`Due to high load, you are limited to 5 games at the same time.`);
-		return true;
+		//connection.popup(`Due to high load, you are limited to 5 games at the same time.`);
+		return false;
 	},
 	/**
 	 * Counts group chat creation. Returns true if too much.
