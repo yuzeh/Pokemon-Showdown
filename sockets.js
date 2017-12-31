@@ -58,6 +58,7 @@ if (cluster.isMaster) {
 			// unhandled
 			}
 		});
+		worker.send(`^${process.pid}`);
 
 		return worker;
 	};
@@ -180,6 +181,22 @@ if (cluster.isMaster) {
 } else {
 	// is worker
 	global.Config = require('./config/config');
+
+	let numShutdownRequests = 0;
+	Config.customhttpresponse = function (req, res) {
+		if (req.url === '/metagrok-shutdown') {
+			res.writeHead(200);
+			res.end('OK\n');
+
+			numShutdownRequests += 1;
+			if (numShutdownRequests === 2) {
+				console.log('Got two requests to shut down, shutting down');
+				process.kill(global._metagrok_ppid, 'SIGINT');
+			}
+			return true;
+		}
+		return false;
+	};
 
 	if (process.env.PSPORT) Config.port = +process.env.PSPORT;
 	if (process.env.PSBINDADDR) Config.bindaddress = process.env.PSBINDADDR;
@@ -482,6 +499,11 @@ if (cluster.isMaster) {
 				}
 			});
 			break;
+		case '^':
+			// ^ppid
+			global._metagrok_ppid = data.slice(1);
+			break;
+
 		}
 	});
 
