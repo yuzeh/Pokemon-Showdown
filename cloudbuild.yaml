@@ -1,0 +1,22 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['pull', 'us.gcr.io/$PROJECT_ID/pokemon-showdown:latest']
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '--cache-from'
+      - 'us.gcr.io/$PROJECT_ID/pokemon-showdown:latest'
+      - '-f'
+      - 'Dockerfile'
+      - '-t'
+      - 'us.gcr.io/$PROJECT_ID/pokemon-showdown:$TAG_NAME'
+      - '.'
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'tag'
+      - 'us.gcr.io/$PROJECT_ID/pokemon-showdown:$TAG_NAME'
+      - 'us.gcr.io/$PROJECT_ID/pokemon-showdown:latest'
+images:
+  - 'us.gcr.io/$PROJECT_ID/pokemon-showdown:$TAG_NAME'
+  - 'us.gcr.io/$PROJECT_ID/pokemon-showdown:latest'
+timeout: 30m
