@@ -3192,6 +3192,16 @@ class Battle extends Dex.ModdedDex {
 		} else {
 			this.teamGenerator.prng = new PRNG();
 		}
+		if (format.team && format.team.startsWith('fixed-')) {
+			const s = format.team.slice(-8);
+			const seed = [
+				parseInt(s.substr(0, 2), 16),
+				parseInt(s.substr(2, 2), 16),
+				parseInt(s.substr(4, 2), 16),
+				parseInt(s.substr(6, 2), 16),
+			];
+			this.teamGenerator.prng = new PRNG(seed);
+		}
 		team = this.teamGenerator.generateTeam();
 		this.prngSeed.push(...this.teamGenerator.prng.startingSeed);
 

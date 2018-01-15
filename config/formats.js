@@ -4,6 +4,27 @@
 // The rules that formats use are stored in data/rulesets.js
 
 exports.Formats = [
+	{
+		section: "Metagrok Custom Formats",
+	},
+
+	{
+		name: "[Gen 7] Fixed Seed 00000000",
+		desc: ["Both teams are generated using the seed 0x00000000."],
+
+		mod: 'gen7',
+		team: 'fixed-00000000',
+		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod', 'Cancel Mod'],
+	},
+
+	{
+		name: "[Gen 7] Fixed Seed 01ABCDEF",
+		desc: ["Both teams are generated using the seed 0x01ABCDEF."],
+
+		mod: 'gen7',
+		team: 'fixed-01ABCDEF',
+		ruleset: ['PotD', 'Pokemon', 'Sleep Clause Mod', 'HP Percentage Mod', 'Cancel Mod'],
+	},
 
 	// US/UM Singles
 	///////////////////////////////////////////////////////////////////
