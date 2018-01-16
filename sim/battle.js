@@ -3193,13 +3193,25 @@ class Battle extends Dex.ModdedDex {
 			this.teamGenerator.prng = new PRNG();
 		}
 		if (format.team && format.team.startsWith('fixed-')) {
-			const s = format.team.slice(-8);
-			const seed = [
-				parseInt(s.substr(0, 2), 16),
-				parseInt(s.substr(2, 2), 16),
-				parseInt(s.substr(4, 2), 16),
-				parseInt(s.substr(6, 2), 16),
-			];
+			const seedStr = format.team.split('-')[1];
+			let seed;
+			if (seedStr.length === 8) {
+				seed = [
+					parseInt(s.substr(0, 2), 16),
+					parseInt(s.substr(2, 2), 16),
+					parseInt(s.substr(4, 2), 16),
+					parseInt(s.substr(6, 2), 16),
+				];
+			} else if (seedStr.length === 16) {
+				seed = [
+					parseFloat(s.substr(0,  4), 16),
+					parseFloat(s.substr(4,  4), 16),
+					parseFloat(s.substr(8,  4), 16),
+					parseFloat(s.substr(12, 4), 16),
+				]
+			} else {
+				throw new Exception(`Seed size is not 8 or 16 chars long: ${seedStr}`);
+			}
 			this.teamGenerator.prng = new PRNG(seed);
 		}
 		team = this.teamGenerator.generateTeam();
