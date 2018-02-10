@@ -79,7 +79,7 @@ class BattleStream extends Streams.ObjectReadWriteStream {
 		if (this.battle) this.battle.sendUpdates();
 		let deltaTime = Date.now() - startTime;
 		if (deltaTime > 1000) {
-			console.log(`[slow battle] ${deltaTime}ms - ${message}`);
+			//console.log(`[slow battle] ${deltaTime}ms - ${message}`);
 		}
 	}
 	/**
