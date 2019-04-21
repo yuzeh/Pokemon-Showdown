@@ -14,7 +14,7 @@
 const LadderStore = require(typeof Config === 'object' && Config.remoteladder ? './ladders-remote' : './ladders-local');
 
 const SECONDS = 1000;
-const PERIODIC_MATCH_INTERVAL = 60 * SECONDS;
+const PERIODIC_MATCH_INTERVAL = 1 * SECONDS;
 
 /**
  * This represents a user's search for a battle under a format.
@@ -101,12 +101,14 @@ class Ladder extends LadderStore {
 			return null;
 		}
 		let gameCount = user.games.size;
+    /*
 		if (Monitor.countConcurrentBattle(gameCount, connection)) {
 			return null;
 		}
 		if (Monitor.countPrepBattle(connection.ip, connection)) {
 			return null;
 		}
+    */
 
 		try {
 			// @ts-ignore TypeScript bug: self-reference
